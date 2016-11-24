@@ -1,13 +1,13 @@
 jQuery(document).ready(function($) {
 
     // The number of the next page to load (/page/x/).
-    var pageNum = parseInt(pbd_alp.startPage) + 1;
+    var pageNum = parseInt(load_more.startPage) + 1;
 
     // The maximum number of pages the current query can return.
-    var max = parseInt(pbd_alp.maxPages);
+    var max = parseInt(load_more.maxPages);
 
     // The link of the next page of posts.
-    var nextLink = pbd_alp.nextLink;
+    var nextLink = load_more.nextLink;
 
     /**
      * Replace the traditional navigation with our own,
@@ -16,8 +16,8 @@ jQuery(document).ready(function($) {
     if (pageNum <= max) {
         // Insert the "More Posts" link.
         $('main')
-            .append('<div class="pbd-alp-placeholder-' + pageNum + '"></div>')
-            .append('<p id="pbd-alp-load-posts"><a href="#">Load More Posts</a></p>');
+            .append('<div class="load-more-placeholder-' + pageNum + '"></div>')
+            .append('<p id="load-more-load-posts"><a href="#">Load More Posts</a></p>');
 
         // Remove the traditional navigation.
         $('.navigation').remove();
@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
     /**
      * Load new posts when the link is clicked.
      */
-    $('#pbd-alp-load-posts a').click(function() {
+    $('#load-more-load-posts a').click(function() {
 
         // Are there more posts to load?
         if (pageNum <= max) {
@@ -35,26 +35,26 @@ jQuery(document).ready(function($) {
             // Show that we're working.
             $(this).text('Loading posts...');
 
-            $('.pbd-alp-placeholder-' + pageNum).load(nextLink + ' .post',
+            $('.load-more-placeholder-' + pageNum).load(nextLink + ' .post',
                 function() {
                     // Update page number and nextLink.
                     pageNum++;
                     nextLink = nextLink.replace(/\/page\/[0-9]?/, '/page/' + pageNum);
 
                     // Add a new placeholder, for when user clicks again.
-                    $('#pbd-alp-load-posts')
-                        .before('<div class="pbd-alp-placeholder-' + pageNum + '"></div>')
+                    $('#load-more-load-posts')
+                        .before('<div class="load-more-placeholder-' + pageNum + '"></div>')
 
                     // Update the button message.
                     if (pageNum <= max) {
-                        $('#pbd-alp-load-posts a').text('Load More Posts');
+                        $('#load-more-load-posts a').text('Load More Posts');
                     } else {
-                        $('#pbd-alp-load-posts a').text('No more posts to load.');
+                        $('#load-more-load-posts a').text('No more posts to load.');
                     }
                 }
             );
         } else {
-            $('#pbd-alp-load-posts a').append('.');
+            $('#load-more-load-posts a').append('.');
         }
 
         return false;
